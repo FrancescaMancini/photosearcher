@@ -4,19 +4,19 @@
 search_url <- function(base_url) {
 
   # get total number of results
-  r <- httr::GET(paste(base_url))
+  r <- httr::GET(base_url, encoding = "ISO-8859")
 
   # put first error catch here
   count_stat <- 0
 
   while (r$status_code != 200 & count_stat < 3) {
     Sys.sleep(0.5)
-    r <- httr::GET(paste(base_url))
+    r <- httr::GET(base_url, encoding = "ISO-8859")
     count_stat <- count_stat + 1
   }
 
   if (r$status_code != 200) {
-    warning("Status code:", r$status, " for ", base_url, " - message: ", httr::content(r, "text"))
+    warning("Status code:", r$status, " for ", base_url, " - message: ", httr::content(r, "text", encoding = "ISO-8859"))
   }
 
   error <- tryCatch({
@@ -90,16 +90,25 @@ ui_todo <- function (x, .envir = parent.frame())
 
 }
 
+# for the info bullet points
+ui_info <- function(x, .envir = parent.frame()) {
+  x <- glue::glue_collapse(x, "\n")
+  x <- glue::glue(x, .envir = .envir)
+  x <- paste0(crayon::yellow(clisymbols::symbol$info), " ", x)
+  lines <- paste0(x, "\n")
+  cat(lines, sep = "")
+}
+
 # this checks for the presence of a key, if no key it prompts the user to create one, it then checks the validity of the key
 create_and_check_key <- function() {
   if(!file.exists("api_key.txt")) {
     ui_todo("Create a Flickr API key at https://www.flickr.com/services/apps/create/")
     utils::browseURL("https://www.flickr.com/services/apps/create/")
-    ui_todo("Enter your Flickr API key (in quotations)")
-    utils::file.edit("api_key.txt")
+    ui_todo("Enter your Flickr API key:")
+    write.table(readline(), file = "api_key.txt", col.names = FALSE, row.names = FALSE)
   }
 
-  api_key <- utils::read.table("api_key.txt", stringsAsFactors = FALSE)[1,1]
+  api_key <- utils::read.table("api_key.txt", stringsAsFactors = FALSE)
 
   base_url = paste("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=", api_key, sep = "")
 
