@@ -3,7 +3,7 @@
 \name{findPlaces}
 \alias{findPlaces}
 \alias{find_place}
-\title{Find correct location information for a given place}
+\title{Find place location data}
 \usage{
 find_place(place)
 }
@@ -16,10 +16,19 @@ search location. Nine variables are returned: place_id, woe_id, latitude,
 longitude, place_url, place_type, place_type_id, timezone, woe_name.
 }
 \description{
+Find the WoeID and other location data for a given place
+}
+\details{
 Takes user defined location and returns location data for the search. Uses
 the flickr.places.find API method from the Flickr API. See
 \url{https://www.flickr.com/services/api/flickr.places.find.html} for more
 information on the API method.
+
+When running the function you need an API key saved as
+photosearcher_key.sysdata in your working directory. If this is the first
+function you run you will be prompted to create and enter your API key. The
+API key will then be saved as photosearcher_key.sysdata in your working
+directory and is used for all function.
 }
 \examples{
 \dontrun{
@@ -28,3 +37,7 @@ find_place(place = "New York")
 find_place(place = "England")
 }
 }
+\seealso{
+Other Information about places: \code{\link{location_tags}}
+}
+\concept{Information about places}

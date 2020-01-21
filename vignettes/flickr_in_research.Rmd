@@ -1,0 +1,75 @@
+---
+title: "Flickr in research"
+author: "Nathan Fox"
+date: "2019-29-04"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Flickr in research}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+
+library(rplos)
+library(tidyverse)
+library(wordcloud)
+
+get_kw <- function(x) {
+  x %>% str_split(",") %>% 
+    sapply(function(y) sub(".*/", "", y)) %>% 
+    unique()  %>% 
+    as.vector() %>% 
+    paste(collapse = ",")
+}
+```
+
+# Flickr papers
+
+To understand how Flickr is currently being use in scientific research we investigated the discipline and scope of articles with the keyword `flickr` in the [PLoS journals](https://www.plos.org/).
+
+```{r}
+plos <- rplos::searchplos(q='flickr', 
+                          fl=c('id','publication_date','subject', 'subject_level_1'),
+                          limit = 200)$data %>% 
+  
+  mutate(keywords = map_chr(subject, get_kw),
+         subjects = subject_level_1)
+```
+
+There are a total of `r nrow(plos)` papers with the keyword `flickr` in the PLoS journals. 
+
+# Subject frequency
+
+To understand which disciplines of science are using Flickr we calculated the frequency of papers in each research field:
+
+```{r}
+plos %>% 
+  pull(subjects) %>% 
+  paste(collapse = ",") %>% 
+  str_split(",") %>% 
+  table %>% 
+  as_tibble()
+```
+
+
+# Keyword Wordcloud
+
+To understand what topics are covered by Flickr researches we found the frequency of other keywords attributed to Flickr papers:
+
+```{r}
+kws <- plos %>% pull(keywords) %>% paste(collapse = ",") %>% str_split(",") %>% table %>% as.data.frame
+
+
+
+wordcloud(words = kws$., freq = kws$Freq, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+
+
+
+

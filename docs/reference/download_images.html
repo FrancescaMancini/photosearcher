@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>download_images — download_images • photosearcher</title>
+<title>Download images — download_images • photosearcher</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,14 @@
 
 
 
-<meta property="og:title" content="download_images — download_images" />
+<meta property="og:title" content="Download images — download_images" />
 
-<meta property="og:description" content="Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes API method
-from the Flickr API to test whether you have permission to download an image. See
-https://www.flickr.com/services/api/flickr.photos.getSizes.html for more
-information on the API method. If permission is available the image is downloaded and
-saved as a .jpeg in a given save directory." />
+<meta property="og:description" content="Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes
+API method from the Flickr API to test whether you have permission to
+download an image. See
+https://www.flickr.com/services/api/flickr.photos.getSizes.html for
+more information on the API method. If permission is available the image is
+downloaded and saved as a .jpeg in a given save directory." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,15 +86,22 @@ saved as a .jpeg in a given save directory." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/flickr_in_research.html">Flickr in research</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/nfox29/photosearcher">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -106,53 +114,87 @@ saved as a .jpeg in a given save directory." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>download_images</h1>
-    <small class="dont-index">Source: <a href='https://github.com/nfox29/photosearcher/blob/master/R/download_images.R'><code>R/download_images.R</code></a></small>
+    <h1>Download images</h1>
+    
     <div class="hidden name"><code>download_images.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes API method
-from the Flickr API to test whether you have permission to download an image. See
-<a href='https://www.flickr.com/services/api/flickr.photos.getSizes.html'>https://www.flickr.com/services/api/flickr.photos.getSizes.html</a> for more
-information on the API method. If permission is available the image is downloaded and
-saved as a .jpeg in a given save directory.</p>
+    <p>Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes
+API method from the Flickr API to test whether you have permission to
+download an image. See
+<a href='https://www.flickr.com/services/api/flickr.photos.getSizes.html'>https://www.flickr.com/services/api/flickr.photos.getSizes.html</a> for
+more information on the API method. If permission is available the image is
+downloaded and saved as a .jpeg in a given save directory.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>download_images</span>(<span class='no'>photo_id</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='st'>"downloaded_images"</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>download_images</span>(<span class='no'>photo_id</span>, <span class='kw'>save_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_image_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_image_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overwrite_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>photo_id</th>
-      <td><p>numeric. id of photo to dowload, can be single id, list or column for
-photo_search outputs</p></td>
+      <td><p>numeric or character vector. id of photo to download, can be
+single id, list or column for photo_search outputs</p></td>
     </tr>
     <tr>
-      <th>saveDir</th>
-      <td><p>character. name of directory for photos to be saved in. This will be
-created if it doesn't exist.</p></td>
+      <th>save_dir</th>
+      <td><p>character. name of directory for photos to be saved in.</p></td>
+    </tr>
+    <tr>
+      <th>max_image_height</th>
+      <td><p>numeric. maximum number of pixels for images height</p></td>
+    </tr>
+    <tr>
+      <th>max_image_width</th>
+      <td><p>numeric. maximum number of pixels for images width</p></td>
+    </tr>
+    <tr>
+      <th>overwrite_file</th>
+      <td><p>logical. Whether to overwritten existing files. if
+TRUE, files will be overwritten and you will be warned in the output.
+Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>logical. If TRUE, suppress status messages (if any), and the progress bar.</p></td>
+      <td><p>logical. If TRUE, suppress status messages (if any), and the
+progress bar.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character. A vector of the images that the user does not have permission to
-download. Images will be saved to <code>saveDir</code>.</p>
+    <p>character. A vector of the images attempted to be downloaded and
+whether they were. If an image was not downloaded, information on why is
+provided. Images will be saved to <code>save_dir</code>.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Please be aware that download times will vary depending on number of
+photographs, size of photographs, internet speed and other factors.
+Downloading a large amount of photographs may take some time.</p>
+<p>When running the function you need an API key saved as
+photosearcher_key.sysdata in your working directory. If this is the first
+function you run you will be prompted to create and enter your API key. The
+API key will then be saved as photosearcher_key.sysdata in your working
+directory and is used for all function.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Get data for known photograph: <code><a href='get_exif.html'>get_exif</a></code>,
+  <code><a href='get_photoinfo.html'>get_photoinfo</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>download_images</span>(<span class='kw'>photo_id</span> <span class='kw'>=</span> <span class='fl'>123</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='st'>"images"</span>)
+<span class='fu'>download_images</span>(<span class='kw'>photo_id</span> <span class='kw'>=</span> <span class='fl'>48704764812</span>, <span class='kw'>save_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)
 
-<span class='fu'>download_images</span>(<span class='kw'>photo_id</span> <span class='kw'>=</span> <span class='no'>photo_search_outputs</span>$<span class='no'>id</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='st'>"downloaded_photos"</span>)
+<span class='fu'>download_images</span>(<span class='kw'>photo_id</span> <span class='kw'>=</span> <span class='fl'>48704764812</span>, <span class='kw'>max_image_height</span> <span class='kw'>=</span> <span class='fl'>1200</span>,
+<span class='kw'>max_image_width</span> <span class='kw'>=</span> <span class='fl'>1200</span>, <span class='kw'>save_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -161,6 +203,10 @@ download. Images will be saved to <code>saveDir</code>.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

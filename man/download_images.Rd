@@ -2,34 +2,61 @@
 % Please edit documentation in R/download_images.R
 \name{download_images}
 \alias{download_images}
-\title{download_images}
+\title{Download images}
 \usage{
-download_images(photo_id, saveDir = "downloaded_images", quiet = FALSE)
+download_images(photo_id, save_dir = NULL, max_image_height = NULL,
+  max_image_width = NULL, overwrite_file = FALSE, quiet = FALSE)
 }
 \arguments{
-\item{photo_id}{numeric. id of photo to dowload, can be single id, list or column for
-photo_search outputs}
+\item{photo_id}{numeric or character vector. id of photo to download, can be
+single id, list or column for photo_search outputs}
 
-\item{saveDir}{character. name of directory for photos to be saved in. This will be
-created if it doesn't exist.}
+\item{save_dir}{character. name of directory for photos to be saved in.}
 
-\item{quiet}{logical. If TRUE, suppress status messages (if any), and the progress bar.}
+\item{max_image_height}{numeric. maximum number of pixels for images height}
+
+\item{max_image_width}{numeric. maximum number of pixels for images width}
+
+\item{overwrite_file}{logical. Whether to overwritten existing files. if
+TRUE, files will be overwritten and you will be warned in the output.
+Default is FALSE.}
+
+\item{quiet}{logical. If TRUE, suppress status messages (if any), and the
+progress bar.}
 }
 \value{
-character. A vector of the images that the user does not have permission to
-download. Images will be saved to \code{saveDir}.
+character. A vector of the images attempted to be downloaded and
+whether they were. If an image was not downloaded, information on why is
+provided. Images will be saved to \code{save_dir}.
 }
 \description{
-Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes API method
-from the Flickr API to test whether you have permission to download an image. See
-\url{https://www.flickr.com/services/api/flickr.photos.getSizes.html} for more
-information on the API method. If permission is available the image is downloaded and
-saved as a .jpeg in a given save directory.
+Downloads images based on their Flickr ID. Uses the flickr.photos.getSizes
+API method from the Flickr API to test whether you have permission to
+download an image. See
+\url{https://www.flickr.com/services/api/flickr.photos.getSizes.html} for
+more information on the API method. If permission is available the image is
+downloaded and saved as a .jpeg in a given save directory.
+}
+\details{
+Please be aware that download times will vary depending on number of
+photographs, size of photographs, internet speed and other factors.
+Downloading a large amount of photographs may take some time.
+
+When running the function you need an API key saved as
+photosearcher_key.sysdata in your working directory. If this is the first
+function you run you will be prompted to create and enter your API key. The
+API key will then be saved as photosearcher_key.sysdata in your working
+directory and is used for all function.
 }
 \examples{
 \dontrun{
-download_images(photo_id = 123, saveDir = "images")
+download_images(photo_id = 48704764812, save_dir = ".")
 
-download_images(photo_id = photo_search_outputs$id, saveDir = "downloaded_photos")
+download_images(photo_id = 48704764812, max_image_height = 1200,
+max_image_width = 1200, save_dir = ".") }
 }
+\seealso{
+Other Get data for known photograph: \code{\link{get_exif}},
+  \code{\link{get_photoinfo}}
 }
+\concept{Get data for known photograph}

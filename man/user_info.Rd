@@ -7,13 +7,12 @@
 user_info(user_id)
 }
 \arguments{
-\item{user_id}{character. The id of the user you wish to obtain information for.}
+\item{user_id}{character. The id of the user you wish to obtain information
+for.}
 }
 \value{
-data.frame. Dataframe of 18 variables from the searched users publically
-available information: id, nsid,	join_date, occupation, hometown, showcase_set,
-showcase_set_title, first_name, last_name, profile_description,
-website	city, country, facebook, twitter, tumblr, Instagram, pinterest
+data.frame. Dataframe of 5 variables from the searched users publicly
+available information: id, occupation, hometown, city, country.
 }
 \description{
 Takes Flickr user ID and returns the profile data.
@@ -22,11 +21,19 @@ Takes Flickr user ID and returns the profile data.
 Uses the flickr.profile.getProfile API method from the Flickr API. See
 \url{https://www.flickr.com/services/api/flickr.profile.getProfile.html} for
 more information on the API method.
+
+See \url{https://www.pixsy.com/academy/flickr-id/} for a guide on finding
+your Flickr ID.
+
+When running the function you need an API key saved as
+photosearcher_key.sysdata in your working directory. If this is the first
+function you run you will be prompted to create and enter your API key. The
+API key will then be saved as photosearcher_key.sysdata in your working
+directory and is used for all function.
 }
 \examples{
 \dontrun{
-user_info(user_id = "8017836@N02")
-
-user_info(user_id = c("11763518@N00", "39745335@N06", "104939923@N02"))
+user_info(user_id = "155421853@N05")
 }
 }
+\concept{User information}
